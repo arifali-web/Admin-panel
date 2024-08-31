@@ -32,13 +32,37 @@ const SalesChart: React.FC = () => {
                     bottom: 5,
                 }}
             >
+                <defs>
+                    <filter id="dropShadow" height="150%">
+                        <feDropShadow
+                            dx="0" 
+                            dy="8" 
+                            stdDeviation="4" 
+                            floodColor="#000" 
+                            floodOpacity="0.3"
+                        />
+                    </filter>
+                </defs>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dataKey="sales" stroke="#8884d8" activeDot={{ r: 8 }} />
-                <Line type="monotone" dataKey="traffic" stroke="#82ca9d" />
+                <Line
+                    type="monotone"
+                    dataKey="sales"
+                    stroke="#8884d8"
+                    activeDot={{ r: 8 }}
+                    strokeWidth={2}
+                    filter="url(#dropShadow)"
+                />
+                <Line
+                    type="monotone"
+                    dataKey="traffic"
+                    stroke="#82ca9d"
+                    strokeWidth={2}
+                    filter="url(#dropShadow)"
+                />
             </LineChart>
         </ResponsiveContainer>
     );
