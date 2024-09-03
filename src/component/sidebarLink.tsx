@@ -1,7 +1,7 @@
 import { DashboardOutlined, UserOutlined, DollarOutlined, SettingOutlined, UserAddOutlined, LoginOutlined, LogoutOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
-import { colors } from "../config/color";
+import { useColors } from "../config/color";
 
 const menuItems = [
     {
@@ -12,7 +12,7 @@ const menuItems = [
     {
         key: '2',
         icon: <UserOutlined />,
-        label: <Link to="/usersmanagment"> Users Management</ Link >,
+        label: <Link to="/usersmanagment"> Users</ Link >,
     },
     {
         key: '4',
@@ -41,15 +41,19 @@ const menuItems = [
     },
 ];
 
-export const renderMenu = (
-    <Menu
-        theme="dark"
-        defaultSelectedKeys={['1']}
-        mode="inline"
-        style={{ background: colors.drawerColor, color: colors.TextColor }}
-        items={menuItems}
-    />
-);
+export const renderMenu = () => {
+    const colors = useColors();
+    return (
+        <Menu
+            theme="dark"
+            defaultSelectedKeys={['1']}
+            mode="inline"
+            style={{ background: colors.backgroundColor, color: colors.TextColor }}
+            items={menuItems}
+            className="poppins-regular table-dark-mode"
+        />
+    );
+};
 
 export const menu = (
     <Menu>

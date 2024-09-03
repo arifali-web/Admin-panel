@@ -5,7 +5,7 @@ import DynamicForm from '../component/Form';
 import moment from 'moment';
 import CustomButton from '../component/CustomButton';
 import CustomTable from '../component/Table';
-import { colors } from '../config/color';
+import { useColors } from '../config/color';
 
 const { Title } = Typography;
 // const { Option } = Select;
@@ -51,7 +51,7 @@ const columns = (handleDelete: (key: string) => void, showModal: (invoice: Billi
   {
     title: 'Action',
     key: 'action',
-    render: (record: any) => (
+    render: (record: BillingData) => (
       <Space size="middle">
         <Button className='rounded-full' icon={<EditOutlined />} onClick={() => showModal(record)} />
         <Popconfirm title="Are you sure to delete this invoice?" onConfirm={() => handleDelete(record.key)}>
@@ -100,6 +100,7 @@ const formFields = [
 
 
 const Billing: React.FC = () => {
+  const colors = useColors();
   const [visible, setVisible] = useState<boolean>(false);
   const [selectedInvoice, setSelectedInvoice] = useState<BillingData | null>(null);
   const [searchText, setSearchText] = useState<string>('');
@@ -172,8 +173,8 @@ const Billing: React.FC = () => {
   const column = columns(handleDelete, showModal);
 
   return (
-    <div className="bg-white lg:p-8 rounded-[30px] min-h-screen p-4 " style={{boxShadow: colors.boxshadow}}>
-      <Title level={2} className="mb-4">Billing Information</Title>
+    <div className="lg:p-8 rounded-[30px] min-h-screen p-4 " style={{ boxShadow: colors.boxshadow , backgroundColor: colors.backgroundColor }}>
+      <Title level={2} className="mb-4 poppins-semibold" style={{ color: colors.TextColor }}>Billing Information</Title>
       <div className="mb-4 flex lg:flex-row flex-col justify-between lg:items-center gap-4">
         <Space>
           <Input
@@ -206,7 +207,7 @@ const Billing: React.FC = () => {
         okText={selectedInvoice ? "Update" : "Add"}
         destroyOnClose // Ensure modal content is cleared on close
       >
-        <DynamicForm fields={formFields} form={form} uploadImage={''} image={''} />
+        <DynamicForm fields={formFields} form={form} uploadImage={() => { }} image={''} />
       </Modal>
     </div>
   );

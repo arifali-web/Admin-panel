@@ -4,6 +4,7 @@ import { UserAddOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons
 import DynamicForm from '../component/Form';
 import CustomTable from '../component/Table';
 import CustomButton from '../component/CustomButton';
+import { useColors } from '../config/color';
 
 const { Title } = Typography;
 
@@ -53,7 +54,7 @@ const field = [
     },
 ];
 
-const columns = (handleDelete: any, showModal: any) => [
+const columns = (handleDelete: Function, showModal: Function) => [
     {
         title: 'Image',
         dataIndex: 'image',
@@ -72,7 +73,7 @@ const columns = (handleDelete: any, showModal: any) => [
     {
         title: 'Action',
         key: 'action',
-        render: (record: any) => (
+        render: (record: UserData) => (
             <div className='flex gap-2'>
                 <Button className='rounded-full' icon={<EditOutlined />} onClick={() => showModal(record)} />
                 <Popconfirm title="Are you sure to delete this user?" onConfirm={() => handleDelete(record.key)}>
@@ -85,6 +86,7 @@ const columns = (handleDelete: any, showModal: any) => [
 ]
 
 const UserManagement: React.FC = () => {
+    const colors = useColors();
     const [visible, setVisible] = useState<boolean>(false);
     const [editingUser, setEditingUser] = useState<UserData | null>(null);
     const [users, setUsers] = useState<UserData[]>(initialData);
@@ -159,60 +161,12 @@ const UserManagement: React.FC = () => {
     const column = columns(handleDelete, showModal);
 
     return (
-        <div className="min-h-screen bg-white lg:p-8 rounded-[30px] p-4">
+        <div className="min-h-screen bg-white lg:p-8 rounded-[30px] p-4" style={{ backgroundColor: colors.backgroundColor }}>
             <div className='flex justify-between items-center mb-4'>
-                <Title level={2}>User Management</Title>
+                <Title level={2} className='poppins-semibold' style={{ color: colors.TextColor }}>User</Title>
                 <CustomButton icon={<UserAddOutlined />} title="Add User" onClick={() => showModal()} />
             </div>
             <CustomTable columns={column} data={users} />
-            {/* <Modal
-                title={editingUser ? 'Edit User' : 'Add User'}
-                visible={visible}
-                onCancel={handleCancel}
-                onOk={handleOk}
-                okText={editingUser ? 'Update' : 'Add'}
-            >
-                <Form
-                    layout="vertical"
-                    initialValues={editingUser || { name: '', email: '', role: '' }}
-                    form={form}
-                >
-                    <Form.Item
-                        name="image"
-                        label="Image"
-                        valuePropName="file"
-                    >
-                        <div>
-                            <input type="file" onChange={uploadImage} />
-                            {image && <img src={image} alt="User" className="mt-2 w-20 h-20 rounded-full" />}
-                        </div>
-                    </Form.Item>
-                    <Form.Item
-                        name="name"
-                        label="Name"
-                        rules={[{ required: true, message: 'Please input the user name!' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="email"
-                        label="Email"
-                        rules={[
-                            { required: true, message: 'Please input the user email!' },
-                            { type: 'email', message: 'Please enter a valid email!' },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="role"
-                        label="Role"
-                        rules={[{ required: true, message: 'Please select the user role!' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                </Form>
-            </Modal> */}
             <Modal
                 title="Add User"
                 visible={visible}

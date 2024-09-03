@@ -1,22 +1,25 @@
-import React from 'react';
+import React, { ChangeEventHandler } from 'react';
 import { Form, Input, Select, DatePicker } from 'antd';
 
 const { Option } = Select;
 
-// interface FieldConfig {
-//     name: string;
-//     label: string;
-//     type: 'text' | 'password' | 'textarea' | 'select' | 'date';
-//     rules?: any[];
-//     options?: { label: string; value: string }[]; // For select input type
-// }
+interface FieldConfig {
+    name?: string;
+    label?: string;
+    type?: string;
+    rules?: any[];
+    options?: { label: string; value: string }[]; // For select input type
 
-// interface DynamicFormProps {
-//     fields: FieldConfig[];
-//     form: any; // Ant Design form instance
-// }
+}
 
-const DynamicForm = ({ fields, form, uploadImage, image }: any) => {
+interface DynamicFormProps {
+    fields: FieldConfig[];
+    form: any; // Ant Design form instance
+    image?: string;
+    uploadImage?: ChangeEventHandler<HTMLInputElement>; // Update the type of uploadImage
+}
+
+const DynamicForm = ({ fields, form, uploadImage, image }: DynamicFormProps) => {
     return (
         <Form layout="vertical" form={form}>
             {fields.map((field: any) => (

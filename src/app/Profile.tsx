@@ -3,7 +3,7 @@ import { Avatar, Typography, Form, Input, DatePicker } from 'antd';
 import { UserOutlined, MailOutlined, PhoneOutlined, GlobalOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import CustomButton from '../component/CustomButton';
-import { colors } from '../config/color';
+import { useColors } from '../config/color';
 const { Title } = Typography;
 
 interface ProfileProps {
@@ -19,7 +19,8 @@ interface ProfileProps {
     };
 }
 
-const Profile: React.FC<ProfileProps> = ({ user }) => {
+const Profile = ({ user } : ProfileProps) => {
+    const colors = useColors();
     const onFinish = (values: any) => {
         console.log('Updated values:', values);
         // Implement the profile update logic here
@@ -97,7 +98,7 @@ const Profile: React.FC<ProfileProps> = ({ user }) => {
                         initialValue={user.bio}
                     >
                         <Input.TextArea className='h-[40px] rounded-[10px]' placeholder="Tell us about yourself" rows={4} />
-                    </Form.Item>                  
+                    </Form.Item>
                     <Form.Item>
                         <CustomButton
                             title="Update Profile"
@@ -109,4 +110,4 @@ const Profile: React.FC<ProfileProps> = ({ user }) => {
     );
 };
 
-export default Profile;
+export default React.memo(Profile);
