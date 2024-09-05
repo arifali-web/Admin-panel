@@ -13,7 +13,9 @@ const mockUser = {
   name: 'John Doe',
   email: 'john.doe@example.com',
   phone: '+1234567890',
-  avatarUrl: 'https://example.com/avatar.jpg' // Replace with your avatar URL or remove
+  avatarUrl: '/images/photo-1685903772095-f07172808761.avif',
+  dob: '2022-01-01',
+  location: 'USA',
 };
 
 const App: React.FC = () => {

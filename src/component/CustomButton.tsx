@@ -15,7 +15,7 @@ function CustomButton(props: CustomButtonProps) {
     const primaryColor = color || colors.primary;
 
     return (
-        <Button htmlType='submit'  className={`rounded-[8px] h-[40px] poppins-regular text-white`} style={{ backgroundColor: primaryColor, }} onClick={onClick} icon={icon}>{title}</Button>
+        <Button htmlType='submit'  className={`rounded-[8px] h-[40px] poppins-regular text-white border-0`} style={{ backgroundColor: primaryColor, }} onClick={onClick} icon={icon}>{title}</Button>
     )
 }
 
