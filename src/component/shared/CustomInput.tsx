@@ -1,14 +1,7 @@
 import { Form, Input } from 'antd'
 import React from 'react'
-import { useColors } from '../config/color'
-
-type inputprops = {
-    name?: string
-    message?: string
-    icon?: any
-    label?: string
-    initialvalue?: string
-}
+import { useColors } from '../../config/color'
+import { inputprops } from '../../type'
 
 function CustomInput({ name, message, icon, label, initialvalue }: inputprops) {
     const colors = useColors()

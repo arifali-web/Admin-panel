@@ -1,13 +1,9 @@
 import { Button } from 'antd'
 import React from 'react'
-import { useColors } from '../config/color'
+import { useColors } from '../../config/color';
+import { CustomButtonProps } from '../../type';
 
-interface CustomButtonProps {
-    color?: string;
-    onClick?: () => void;
-    icon?: React.ReactNode;
-    title?: string;
-}
+
 
 function CustomButton(props: CustomButtonProps) {
     const colors = useColors();

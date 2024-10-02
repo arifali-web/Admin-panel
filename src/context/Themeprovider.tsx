@@ -1,6 +1,5 @@
 // ThemeContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { theme as antdTheme } from 'antd';
 
 interface ThemeContextProps {
   isDarkMode: boolean;

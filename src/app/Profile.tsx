@@ -2,9 +2,10 @@ import React from 'react';
 import { Avatar, Form, Input, DatePicker } from 'antd';
 import { UserOutlined, MailOutlined, PhoneOutlined, GlobalOutlined } from '@ant-design/icons';
 import moment from 'moment';
-import CustomButton from '../component/CustomButton';
 import { useColors } from '../config/color';
-import CustomInput from '../component/Input';
+import CustomInput from '../component/shared/CustomInput';
+import CustomButton from '../component/shared/CustomButton';
+
 
 interface ProfileProps {
     user: {

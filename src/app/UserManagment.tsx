@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Button, Modal, Form, Popconfirm, Typography, notification } from 'antd';
 import { UserAddOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import DynamicForm from '../component/Form';
-import CustomTable from '../component/Table';
-import CustomButton from '../component/CustomButton';
+import DynamicForm from '../component/shared/Form';
 import { useColors } from '../config/color';
+import CustomTable from '../component/shared/Table';
+import CustomButton from '../component/shared/CustomButton';
 
 const { Title } = Typography;
 
@@ -25,7 +25,7 @@ const field = [
         name: 'image',
         label: 'Image',
         type: 'image',
-        rules: [],
+        rules: [ { required: true, message: 'Please upload the user image!' } ],
     },
     {
         name: 'name',
@@ -173,6 +173,7 @@ const UserManagement: React.FC = () => {
                 onCancel={handleCancel}
                 onOk={handleOk}
                 okText="Add"
+                style={{ backgroundColor: colors.backgroundColor }}
             >
                 <DynamicForm fields={field} form={form} uploadImage={uploadImage} image={image} />
             </Modal>

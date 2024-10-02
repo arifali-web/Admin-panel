@@ -30,11 +30,9 @@ const Login: React.FC = () => {
                     >
                         <Input.Password prefix={<LockOutlined />} placeholder="Password" />
                     </Form.Item>
-                    <Form.Item>
-                        <Button type="primary" htmlType="submit" className="w-full">
-                            Login
-                        </Button>
-                    </Form.Item>
+                    <Button type="primary" htmlType="submit" className="w-full">
+                        Login
+                    </Button>
                 </Form>
             </div>
         </div>

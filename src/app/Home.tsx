@@ -1,24 +1,13 @@
 import React from 'react';
 import { Col, Row, Space, Tag } from 'antd';
-import SalesChart from '../component/Chart';
-import CustomTable from '../component/Table';
-import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
+import SalesChart from '../component/partial/Chart';
 import { useColors } from '../config/color';
+import CustomTable from '../component/shared/Table';
+import Statistics from '../component/partial/Statistics';
+import { User } from '../type';
+import { statistics, data } from '../config/data/home';
+// import { useRequestHook } from '../hooks/useRequest';
 
-const statistics = [
-    { title: "Today's Sales", value: "$53,000", change: "+30%" },
-    { title: "Today's Users", value: "3,200", change: "+20%" },
-    { title: "New Clients", value: "+1,200", change: "-20%" },
-    { title: "New Orders", value: "$13,200", change: "+10%" },
-];
-
-type User = {
-    key: string;
-    name: string;
-    age: number;
-    address: string;
-    tags: string[];
-}
 
 const columns = [
     {
@@ -69,53 +58,27 @@ const columns = [
     },
 ];
 
-const data: User[] = [
-    {
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-        tags: ['nice', 'developer'],
-    },
-    {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-        tags: ['loser'],
-    },
-    {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sydney No. 1 Lake Park',
-        tags: ['cool', 'teacher'],
-    },
-];
+
 const Dashboard: React.FC = () => {
     const colors = useColors();
+
+    // useRequestHook({
+    //     url: '/products',
+    //     method: 'post',
+    // }).withBody({
+    //     title: 'test product',
+    //     price: 13.5,
+    //     description: 'lorem ipsum set',
+    //     image: 'https://i.pravatar.cc',
+    //     category: 'electronic'
+    // }).call();
+
     return (
         <div>
             <h1 className="text-2xl poppins-semibold mb-6" style={{ color: colors.TextColor }}>Dashboard</h1>
             <Row gutter={16}>
-                {statistics.map((stat, index) => (
-                    <Col key={index} xs={24} sm={12} lg={6}>
-                        <div className='p-6 rounded-[20px] mb-6' style={{ boxShadow: colors.boxshadow, backgroundColor: colors.backgroundColor }} >
-                            <h2 className='text-xl poppins-semibold mb-4' style={{ color: colors.TextColor }}>{stat.title}</h2>
-                            <p className="text-3xl poppins-bold" style={{ color: colors.TextColor }}>{stat.value}</p>
-                            <p className={` poppins-regular ${stat.change.includes("-") ? "text-[#D0004B]" : "text-[#00AC4F]"} text-[16px]`}>
-                                {stat.change.includes("-") ? (
-                                    <span>
-                                        <ArrowDownOutlined /> {stat.change}
-                                    </span>
-                                ) : (
-                                    <span>
-                                        <ArrowUpOutlined /> {stat.change}
-                                    </span>
-                                )}
-                            </p>
-                        </div>
-                    </Col>
+                {statistics.map((stat) => (
+                    <Statistics {...stat} />
                 ))}
             </Row>
 

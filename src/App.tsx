@@ -7,7 +7,7 @@ import Profile from './app/Profile';
 import Billing from './app/Billing';
 import UserManagement from './app/UserManagment';
 import Settings from './app/Setting';
-import LayoutAdmin from './component/Layout';
+import LayoutAdmin from './component/partial/Layout';
 
 const mockUser = {
   name: 'John Doe',

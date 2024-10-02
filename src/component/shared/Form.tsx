@@ -1,23 +1,9 @@
-import React, { ChangeEventHandler } from 'react';
+import React from 'react';
 import { Form, Input, Select, DatePicker } from 'antd';
-
+import { DynamicFormProps } from '../../type';
 const { Option } = Select;
 
-interface FieldConfig {
-    name?: string;
-    label?: string;
-    type?: string;
-    rules?: any[];
-    options?: { label: string; value: string }[]; // For select input type
 
-}
-
-interface DynamicFormProps {
-    fields: FieldConfig[];
-    form: any; // Ant Design form instance
-    image?: string;
-    uploadImage?: ChangeEventHandler<HTMLInputElement>; // Update the type of uploadImage
-}
 
 const DynamicForm = ({ fields, form, uploadImage, image }: DynamicFormProps) => {
     return (

@@ -1,16 +1,14 @@
 // CustomTable.tsx
 import { Table } from 'antd';
-import { useColors } from '../config/color';
-import { useTheme } from '../context/Themeprovider';
+import { useColors } from '../../config/color';
+import { useTheme } from '../../context/Themeprovider';
+import { TableProps } from '../../type';
 
-interface TableProps {
-    columns: any[];
-    data: any[];
-}
+
 
 const CustomTable = ({ columns, data }: TableProps) => {
     const colors = useColors();
-    const { isDarkMode } = useTheme(); // Get the current theme state
+    const { isDarkMode } = useTheme();
 
     return (
         <Table

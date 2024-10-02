@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { Typography, Button, Modal, Input, Space, Popconfirm, Form } from 'antd';
+import { Typography, Button, Input, Space, Popconfirm, Form } from 'antd';
 import { SearchOutlined, PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import DynamicForm from '../component/Form';
+import DynamicForm from '../component/shared/Form';
 import moment from 'moment';
-import CustomButton from '../component/CustomButton';
-import CustomTable from '../component/Table';
 import { useColors } from '../config/color';
+import CustomButton from '../component/shared/CustomButton';
+import CustomTable from '../component/shared/Table';
+import CustomModal from '../component/partial/CustomModal';
+import initialBillingData from '../config/data/billingdata';
+import formFields from '../config/form/billing';
+
 
 const { Title } = Typography;
 // const { Option } = Select;
@@ -17,15 +21,6 @@ interface BillingData {
   amount: string;
   status: string;
 }
-
-const initialBillingData: BillingData[] = [
-  { key: '1', invoiceNumber: 'INV12345', date: '2024-08-01', amount: '$100.00', status: 'Paid' },
-  { key: '2', invoiceNumber: 'INV12346', date: '2024-08-05', amount: '$200.00', status: 'Pending' },
-  { key: '3', invoiceNumber: 'INV12347', date: '2024-08-10', amount: '$300.00', status: 'Paid' },
-  { key: '4', invoiceNumber: 'INV12348', date: '2024-08-15', amount: '$400.00', status: 'Pending' },
-  { key: '5', invoiceNumber: 'INV12349', date: '2024-08-20', amount: '$500.00', status: 'Paid' },
-  { key: '6', invoiceNumber: 'INV12350', date: '2024-08-25', amount: '$600.00', status: 'Pending' },
-];
 
 const columns = (handleDelete: (key: string) => void, showModal: (invoice: BillingData) => void) => [
   {
@@ -62,41 +57,6 @@ const columns = (handleDelete: (key: string) => void, showModal: (invoice: Billi
   },
 ];
 
-
-const formFields = [
-  {
-    name: 'invoiceNumber',
-    label: 'Invoice Number',
-    type: 'text',
-    placeholder: 'Enter invoice number',
-    rules: [{ required: true, message: 'Please enter the invoice number' }],
-  },
-  {
-    name: 'date',
-    label: 'Date',
-    type: 'date', // Assuming you want a calendar date picker
-    placeholder: 'Enter date',
-    rules: [{ required: true, message: 'Please enter the date' }],
-  },
-  {
-    name: 'amount',
-    label: 'Amount',
-    type: 'text',
-    placeholder: 'Enter amount',
-    rules: [{ required: true, message: 'Please enter the amount' }],
-  },
-  {
-    name: 'status',
-    label: 'Status',
-    type: 'select',
-    placeholder: 'Select status',
-    rules: [{ required: true, message: 'Please select a status' }],
-    options: [
-      { label: 'Paid', value: 'Paid' },
-      { label: 'Pending', value: 'Pending' },
-    ],
-  },
-];
 
 
 const Billing: React.FC = () => {
@@ -173,7 +133,7 @@ const Billing: React.FC = () => {
   const column = columns(handleDelete, showModal);
 
   return (
-    <div className="lg:p-8 rounded-[30px] min-h-screen p-4 " style={{ boxShadow: colors.boxshadow , backgroundColor: colors.backgroundColor }}>
+    <div className="lg:p-8 rounded-[30px] min-h-screen p-4 " style={{ boxShadow: colors.boxshadow, backgroundColor: colors.backgroundColor }}>
       <Title level={2} className="mb-4 poppins-semibold" style={{ color: colors.TextColor }}>Billing Information</Title>
       <div className="mb-4 flex lg:flex-row flex-col justify-between lg:items-center gap-4">
         <Space>
@@ -185,30 +145,18 @@ const Billing: React.FC = () => {
             style={{ width: 340 }}
             className='h-[40px] rounded-[10px]'
           />
-          {/* <Select
-            placeholder="Filter by status"
-            value={statusFilter}
-            onChange={handleStatusChange}
-            allowClear
-            style={{ width: 200 }}
-          >
-            <Option value="Paid">Paid</Option>
-            <Option value="Pending">Pending</Option>
-          </Select> */}
         </Space>
         <CustomButton icon={<PlusOutlined />} title="Add Invoice" onClick={() => showModal()} />
       </div>
       <CustomTable columns={column} data={filteredData} />
-      <Modal
-        title={selectedInvoice ? "Edit Invoice" : "Add Invoice"}
+      <CustomModal
         visible={visible}
-        onOk={handleOk}
         onCancel={handleCancel}
-        okText={selectedInvoice ? "Update" : "Add"}
-        destroyOnClose // Ensure modal content is cleared on close
+        onOk={handleOk}
+        title={selectedInvoice ? "Edit Invoice" : "Add Invoice"}
       >
-        <DynamicForm fields={formFields} form={form} uploadImage={() => { }} image={''} />
-      </Modal>
+        <DynamicForm fields={formFields} form={form} />
+      </CustomModal>
     </div>
   );
 };

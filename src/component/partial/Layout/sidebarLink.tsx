@@ -1,7 +1,7 @@
 import { DashboardOutlined, UserOutlined, DollarOutlined, SettingOutlined, UserAddOutlined, LoginOutlined, LogoutOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
-import { useColors } from "../config/color";
+import { useColors } from "../../../config/color";
 
 const menuItems = [
     {

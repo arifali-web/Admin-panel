@@ -38,3 +38,20 @@ li.ant-menu-item.ant-menu-item-selected {
 .table-dark-mode .ant-pagination {
     color: var(--textColor);
 }
+
+
+.table-dark-mode .ant-modal-content {
+    background-color: var(--backgroundColor);
+}
+
+.table-dark-mode .ant-modal-header {
+    background-color: var(--backgroundColor);
+}
+
+.table-dark-mode .ant-modal-title {
+    color: #fff !important;
+}
+
+.table-dark-mode label.ant-form-item-required {
+    color: #fff !important;
+}
