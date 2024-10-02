@@ -1,17 +1,19 @@
 import React from 'react';
 import { Form, Input, Button, Typography } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { useColors } from '../config/color';
 
 const { Title } = Typography;
 
 const Login: React.FC = () => {
+    const colors = useColors();
     const onFinish = (values: any) => {
         console.log('Received values:', values);
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+        <div className="flex items-center justify-center min-h-screen bg-[#f0f1f5]" >
+            <div className="w-full max-w-md bg- p-8 rounded-[20px]" style={{ boxShadow: colors.boxshadow, backgroundColor: colors.backgroundColor }}>
                 <Title level={2} className="text-center mb-6">Login</Title>
                 <Form
                     name="login"

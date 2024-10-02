@@ -1,55 +1,64 @@
 import { DashboardOutlined, UserOutlined, DollarOutlined, SettingOutlined, UserAddOutlined, LoginOutlined, LogoutOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
-import { Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useColors } from "../../../config/color";
+import { MenuProps } from 'antd';
 
 const menuItems = [
     {
-        key: '1',
+        key: '/',
         icon: <DashboardOutlined />,
-        label: <Link to="/"> Dashboard </Link>,
+        label: 'Dashboard',
     },
     {
-        key: '2',
+        key: '/usersmanagment',
         icon: <UserOutlined />,
-        label: <Link to="/usersmanagment"> Users</ Link >,
+        label: 'Users',
     },
     {
-        key: '4',
+        key: '/billing',
         icon: <DollarOutlined />,
-        label: <Link to="/billing" > Billing </Link>,
+        label: 'Billing',
     },
     {
-        key: '5',
+        key: '/profile',
         icon: <UserOutlined />,
-        label: <Link to="/profile" > Profile </Link>,
+        label: 'Profile',
     },
     {
-        key: '3',
+        key: '/settings',
         icon: <SettingOutlined />,
-        label: <Link to="/settings" > Settings </Link>,
+        label: 'Settings',
     },
     {
-        key: '6',
+        key: '/signup',
         icon: <UserAddOutlined />,
-        label: <Link to="/signup" > Sign Up </Link>,
+        label: 'Sign Up',
     },
     {
-        key: '7',
+        key: '/login',
         icon: <LoginOutlined />,
-        label: <Link to="/login" > Login </Link>,
+        label: 'Login',
     },
 ];
 
 export const renderMenu = () => {
     const colors = useColors();
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const onClick: MenuProps['onClick'] = (e) => {
+        navigate(e.key);
+    };
     return (
         <Menu
             theme="dark"
-            defaultSelectedKeys={['1']}
+            selectedKeys={[location.pathname]}
+            defaultSelectedKeys={['/']}
             mode="inline"
             style={{ background: colors.backgroundColor, color: colors.TextColor }}
             items={menuItems}
+            onClick={onClick}
             className="poppins-regular table-dark-mode"
         />
     );
