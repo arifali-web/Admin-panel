@@ -6,9 +6,9 @@
 }
 
 li.ant-menu-item.ant-menu-item-selected {
-    background-color: #EAEDFB;
+    background-color: #84668C;
     /* background-image: linear-gradient(to left top, #ffffff, #dbd8fd, #b1b4fb, #7c92f9, #0074f7); */
-    box-shadow:0 20px 27px 0 rgba(0, 0, 0, 0.05) ;
+    /* box-shadow:0 20px 27px 0 rgba(0, 0, 0, 0.05) ; */
     font-weight: 500 !important;
     color: #fff !important;
 }
