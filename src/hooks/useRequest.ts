@@ -1,105 +1,77 @@
-import { notification } from "antd";
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import { useState, useEffect, useCallback } from "react";
+import { request } from "../repositories/index"; 
+import { UseRequestOptions, UseRequestReturn } from "../type";
 
-const Api = axios.create({
-    baseURL: 'https://fakestoreapi.com/',
-    timeout: 10000,
-});
+/**
+ * Custom React Hook for making HTTP requests using HttpService.
+ * @param endpoint - The API endpoint.
+ * @param method - HTTP method ('get', 'post', 'put', etc.).
+ * @param options - Options for the request (optional).
+ * @returns Object containing data, loading, error, and a function to trigger the request manually.
+ */
+export function useHttp<T = any>(
+    endpoint: string,
+    method: string,
+    options: UseRequestOptions = { dependencies: [] }
+): UseRequestReturn<T> {
 
-type RequestConfig = {
-    url: string;
-    method?: string;
-    routeParam?: string;
+    const [data, setData] = useState<T | null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<{ message: string; status?: number } | null>(null);
+
+    const execute = useCallback(
+        async (requestOptions: Partial<UseRequestOptions> = {}) => {
+            setLoading(true);
+            setError(null);
+
+            try {
+                const {
+                    body,
+                    params,
+                    headers,
+                    auth,
+                    routeParams,
+                } = requestOptions;
+
+                const service = request(endpoint, method);
+
+                if (auth !== undefined) service.setAuth(auth);
+                if (params) service.setParams(params);
+                if (body) service.setBody(body);
+                if (headers) service.setHeaders(headers);
+                if (routeParams) service.setRouteParams(routeParams);
+
+                await service
+                    .onSuccess((responseData, responseHeaders) => {
+                        console.log("Success:", responseData, responseHeaders);
+                        setData(responseData as any);
+                    })
+                    .onFailure((err) => {
+                        console.error("Error:", err);
+                        setError(err);
+                    })
+                    .call();
+            } catch (err) {
+                console.error("Unhandled error:", err);
+                setError({ message: "Something went wrong", ...(err as any) });
+            } finally {
+                setLoading(false);
+            }
+        },
+        [endpoint, method, options]
+    );
+
+    useEffect(() => {
+        if (options.type === "mount" && endpoint && method) {
+            execute(options);
+        }
+
+        if (options.type === "unmount") {
+            return options.type === "unmount" ? () => {
+                execute();
+            } : undefined;
+        }
+    }, [...options.dependencies]);
+
+    return { data, loading, error, execute };
 }
-
-export class useRequest {
-    private config: AxiosRequestConfig = {};
-    private onSuccessCallback: Function = () => { };
-    private onErrorCallback: Function = () => { };
-    private showToast: boolean = true;
-    private hideErrorToast: boolean = false;
-
-    constructor({ url, method = "get", routeParam }: RequestConfig) {
-        if (routeParam) url = `${url}/${routeParam}`;
-        this.config = { url, method };
-        this.addAuthHeader();
-    }
-
-    withoutToast(): this {
-        this.showToast = false;
-        return this;
-    }
-
-    withOutErrorToast(): this {
-        this.hideErrorToast = true;
-        return this;
-    }
-
-    withBody(data: any): this {
-        this.config.data = data;
-        return this;
-    }
-
-    withParams(params: any): this {
-        this.config.params = params;
-        return this;
-    }
-
-    // withHeader(headers: any): this {
-    //     this.config.headers = { ...this.config.headers, ...headers };
-    //     return this;
-    // }
-
-    onSuccess(callback: (data: any, headers?: any) => void): this {
-        this.onSuccessCallback = callback;
-        return this;
-    }
-
-    onError(callback: (error: any) => void): this {
-        this.onErrorCallback = callback;
-        return this;
-    }
-
-    private handleSuccess(response: AxiosResponse): void {
-        if (this.showToast) {
-            notification.success({
-                message: 'Success',
-                description: response.data.message || 'Request successful',
-            });
-        }
-    }
-
-    private handleError(error: any): void {
-        const errorMessage = error.response?.data?.message || error.message || 'An error occurred';
-        if (!this.hideErrorToast) {
-            notification.error({
-                message: 'Error',
-                description: errorMessage,
-            });
-        }
-    }
-
-    async call(): Promise<void> {
-        try {
-            const response: AxiosResponse = await Api.request(this.config);
-            console.log('Response:', response);
-            this.handleSuccess(response);
-            this.onSuccessCallback(response.data, response.headers);
-        } catch (error: any) {
-            this.handleError(error);
-            this.onErrorCallback(error);
-        }
-    }
-
-    private addAuthHeader(): void {
-        const token = localStorage.getItem('access_token');
-        if (token) {
-            this.config.headers = {
-                ...this.config.headers,
-                Authorization: `Bearer ${token}`,
-            };
-        }
-    }
-}
-
-export const useRequestHook = ({ url, method, routeParam }: RequestConfig) => new useRequest({ url, method, routeParam });
